@@ -49,8 +49,7 @@ function Invoke-ColorOutput{
 		[ValidateSet('Black', 'DarkBlue', 'DarkGreen', 'DarkCyan', 'DarkRed', 'DarkMagenta', 'DarkYellow', 'Gray', 'DarkGray', 'Blue', 'Green', 'Cyan', 'Red', 'Magenta', 'Yellow', 'White')]
 		[alias('back')]
 		[alias('BGR')]
-		[ConsoleColor] $BackgroundColor,
-        [Switch]$NoNewline
+		[ConsoleColor] $BackgroundColor
     )    
 	Begin{
 		# Save previous colors
@@ -83,12 +82,8 @@ function Invoke-ColorOutput{
 					$Object = ""
 				}
 
-				# Writ to Console
-				if($NoNewline){
-					[Console]::Write($Object)
-				}else{
-					Write-Output $Object
-				}
+				# Write to Console
+				Write-Output $Object
 			}
 		}Catch{
 			Write-Warning "Oops... Something went wrong! ($($Error[0].Exception.GetType().FullName))"
