@@ -1,16 +1,51 @@
 function Invoke-ColorOutput{
+	<#
+    .SYNOPSIS
+        Helper function to write colored output to the console.
+    .DESCRIPTION
+        This is a helper script to write colored output to the console, without using write-host. 
+    
+	.PARAMETER Object
+		Aliases: Message, msg
+        The text to use in the message. 
+        
+	.PARAMETER ForegroundColor
+		Aliases: Fore, FGR
+		The color to be used for the text
+
+	.PARAMETER BackgroundColor
+		Aliases: Back, BGR
+		The color to be used for the background
+
+	.PARAMETER NoNewLine
+		Does not place the text on a new line.
+
+    .NOTES
+        Version:        1.0
+        Author:         Marc Dekeyser
+        Creation Date:  April 15th, 2019
+		Purpose/Change: Initial script development
+		URI:            https://hornedowl.net/
+    
+    .EXAMPLE
+        Invoke-ColorOutput -Message 'Just a test message' 
+
+    .EXAMPLE
+       1..10 | Invoke-ColorOutput -Message 'Just a test message'
+
+    #>
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$False,Position=1,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True)]
 		[alias('message')]
 		[alias('msg')]
 		[Object[]]$Object,
-        [Parameter(Mandatory=$False,Position=2,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True)]
+        [Parameter(Mandatory=$False,Position=2)]
 		[ValidateSet('Black', 'DarkBlue', 'DarkGreen', 'DarkCyan', 'DarkRed', 'DarkMagenta', 'DarkYellow', 'Gray', 'DarkGray', 'Blue', 'Green', 'Cyan', 'Red', 'Magenta', 'Yellow', 'White')]
         [alias('fore')]
         [alias('FGR')]
 		[ConsoleColor] $ForegroundColor,
-        [Parameter(Mandatory=$False,Position=3,ValueFromPipeline=$True,ValueFromPipelinebyPropertyName=$True)]
+        [Parameter(Mandatory=$False,Position=3)]
 		[ValidateSet('Black', 'DarkBlue', 'DarkGreen', 'DarkCyan', 'DarkRed', 'DarkMagenta', 'DarkYellow', 'Gray', 'DarkGray', 'Blue', 'Green', 'Cyan', 'Red', 'Magenta', 'Yellow', 'White')]
 		[alias('back')]
 		[alias('BGR')]
@@ -19,8 +54,14 @@ function Invoke-ColorOutput{
     )    
 	Begin{
 		# Save previous colors
-		$previousForegroundColor = $host.UI.RawUI.ForegroundColor
-		$previousBackgroundColor = $host.UI.RawUI.BackgroundColor
+		If($ForegroundColor){
+			$previousForegroundColor = $host.UI.RawUI.ForegroundColor
+		}
+		
+		If($BackgroundColor){
+			$previousBackgroundColor = $host.UI.RawUI.BackgroundColor
+		}
+		
 	}Process{
 		
 		Try{
@@ -57,8 +98,14 @@ function Invoke-ColorOutput{
 			$ErrorActionPreference = 'Continue'
 		}
 	}End{
-		 # Restore previous colors
-		$host.UI.RawUI.ForegroundColor = $previousForegroundColor
-		$host.UI.RawUI.BackgroundColor = $previousBackgroundColor
+		# Restore previous colors
+		If($ForegroundColor){
+			$host.UI.RawUI.ForegroundColor = $previousForegroundColor
+		}
+		
+		If($BackgroundColor){
+			$host.UI.RawUI.BackgroundColor = $previousBackgroundColor
+		}
+		
 	}
 }
