@@ -25,7 +25,7 @@ function Invoke-ColorOutput{
         Author:         Marc Dekeyser
         Creation Date:  April 15th, 2019
 		Purpose/Change: Initial script development
-		URI:            https://hornedowl.net/
+		Help URI:            https://hornedowl.net/2019/04/15/invoke-coloroutput/
     
     .EXAMPLE
         Invoke-ColorOutput -Message 'Just a test message' 
